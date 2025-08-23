@@ -1,0 +1,82 @@
+create database if not exists NearMe;
+use NearMe;
+
+
+
+CREATE TABLE stores_type(
+	id_store_type INT AUTO_INCREMENT PRIMARY KEY,
+    store_type VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE stores(
+	nit_store VARCHAR(20) PRIMARY KEY,
+    store_name VARCHAR(100) UNIQUE,
+    address TEXT,
+    phone_number INT UNIQUE,
+    email VARCHAR(200) UNIQUE,
+    id_store_type INT ,
+    opening_hours TIME,
+    closing_hours TIME,
+    note TEXT,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_store_type) REFERENCES stores_type(id_store_type)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE products(
+	id_product INT AUTO_INCREMENT PRIMARY KEY,
+    product_name VARCHAR(250),
+    price DECIMAL(12,2),
+    category VARCHAR(100),
+    id_store VARCHAR(20),
+    product_description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_store) REFERENCES stores(nit_store) 
+    ON DELETE SET NULL
+    ON UPDATE CASCADE
+);
+
+INSERT INTO stores_type(store_type) VALUES
+  ('Ropa'),
+  ('Calzado'),
+  ('Tecnología'),
+  ('Electrónica'),
+  ('Hogar'),
+  ('Muebles'),
+  ('Decoración'),
+  ('Deportes'),
+  ('Juguetes'),
+  ('Alimentos y Bebidas'),
+  ('Libros'),
+  ('Belleza y Cuidado Personal'),
+  ('Salud y Bienestar'),
+  ('Herramientas'),
+  ('Automotriz'),
+  ('Accesorios'),
+  ('Mascotas'),
+  ('Papelería y Oficina'),
+  ('Arte y Manualidades'),
+  ('Viajes y Equipaje'),
+  ('Electrodomésticos'),
+  ('Productos para Bebés'),
+  ('Ropa Interior'),
+  ('Ropa de Cama'),
+  ('Productos Ecológicos'),
+  ('Joyería y Relojes'),
+  ('Instrumentos Musicales'),
+  ('Videojuegos'),
+  ('Música y Películas'),
+  ('Seguridad y Vigilancia'),
+  ('Cuidado del Jardín'),
+  ('Alimentos Orgánicos'),
+  ('Suplementos y Vitaminas'),
+  ('Ropa Deportiva'),
+  ('Tecnología Wearable'),
+  ('Cuidado del Automóvil'),
+  ('Muebles de Oficina'),
+  ('Suministros para Mascotas');
