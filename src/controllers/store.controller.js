@@ -35,10 +35,10 @@ app.get('/stores/:nit_store',async (req,res)=>{
     }
 });
 
-app.post('/nit_store',async (req,res)=>{
+app.post('/stores',async (req,res)=>{
     try{
         const {nit_store,store_name,address,phone_number,email,id_store_type,opening_hours,closing_hours,note}=req.body; 
-        const query= `INSERT INTO stores(nit_store,store_name,address,phone_number,email,id_store_type,opening_hours,closing_hours,note) VALUES (?,?,?,?,?,?,?,?,?,?)`;
+        const query= `INSERT INTO stores(nit_store,store_name,address,phone_number,email,id_store_type,opening_hours,closing_hours,note) VALUES (?,?,?,?,?,?,?,?,?)`;
         const values = [nit_store,store_name.trim(),address,phone_number,email,id_store_type,opening_hours,closing_hours,note.trim()];
         const [result] = await pool.query(query,values);
         res.status(201).json({
@@ -55,16 +55,16 @@ app.post('/nit_store',async (req,res)=>{
     }
 });
 
-app.put('/stores/:id_store', async (req,res)=>{
+app.put('/stores/:nit_store', async (req,res)=>{
     try {
-        const {id_store}= req.params;
-        const{nit_store,store_name,address,phone_number,email,id_store_type,opening_hours,closing_hours,note}=req.body;
-        const query= `UPDATE products SET product_name=?, price=?, stock=?,category=?,id_store=?,product_description=? WHERE id_product=?`;
-        const values=[product_name.trim(),price,stock,category.trim(),id_store,product_description.trim(),id_product];
+        const {nit_store}= req.params;
+        const{nit_store: new_nit_store,store_name,address,phone_number,email,id_store_type,opening_hours,closing_hours,note}=req.body;
+        const query= `UPDATE stores SET nit_store=?,store_name=?,address=?,phone_number=?,email=?,id_store_type=?,opening_hours=?,closing_hours=?,note=? WHERE nit_store=?`;
+        const values=[new_nit_store,store_name.trim(),address,phone_number,email,id_store_type,opening_hours,closing_hours,note.trim(),nit_store];
         const [result]= await pool.query(query,values);  
         
         if (result.affectedRows != 0) {
-            return res.json({ mensaje: "product updated" })
+            return res.json({ mensaje: "store updated" })
         }
     } catch (error) {
         res.status(500).json({
@@ -76,18 +76,18 @@ app.put('/stores/:id_store', async (req,res)=>{
     }
 });
 
-app.delete('/products/:id_product',async (req,res)=>{
+app.delete('/stores/:nit_store',async (req,res)=>{
     try {
-        const {id_product}= req.params;
-        const query= `DELETE FROM products WHERE id_product=?`
+        const {nit_store}= req.params;
+        const query= `DELETE FROM stores WHERE nit_store=?`
         
         const values=[
-            id_product
+            nit_store
         ]
         const [result]= await pool.query(query,values);
         
         if(result.affectedRows!==0){
-            return res.json({message: 'product deleted'})
+            return res.json({message: 'store deleted'})
         }
     } catch (error) {
         res.status(500).json({
