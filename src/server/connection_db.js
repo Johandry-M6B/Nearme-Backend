@@ -1,16 +1,7 @@
 import mysql from 'mysql2/promise';
+import { dbConfig } from '../config/database.js';
 
-export const pool= mysql.createPool({
-    host:"127.0.0.1",
-    database: "NearMe",
-    port: "3306",
-    user: "root",
-    password: "Qwe.123*",
-    connectionLimit: 10,
-    waitForConnections: true,
-    queueLimit:0
-
-})
+export const pool = mysql.createPool(dbConfig);
 async function databaseConnection() {
     try {
         const connection = await pool.getConnection();
@@ -22,4 +13,3 @@ async function databaseConnection() {
     
 }
 databaseConnection();
-
