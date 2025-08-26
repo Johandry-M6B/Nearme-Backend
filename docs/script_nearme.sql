@@ -14,7 +14,7 @@ CREATE TABLE stores(
 	nit_store VARCHAR(20) PRIMARY KEY,
     store_name VARCHAR(100) UNIQUE,
     address TEXT,
-    phone_number INT UNIQUE,
+    phone_number VARCHAR(20) UNIQUE,
     email VARCHAR(200) UNIQUE,
     id_store_type INT ,
     opening_hours TIME,
@@ -29,8 +29,9 @@ CREATE TABLE stores(
 
 CREATE TABLE products(
 	id_product INT AUTO_INCREMENT PRIMARY KEY,
-    product_name VARCHAR(250),
+    product_name VARCHAR(250) UNIQUE,
     price DECIMAL(12,2),
+    stock INT,
     category VARCHAR(100),
     id_store VARCHAR(20),
     product_description TEXT,
@@ -80,3 +81,8 @@ INSERT INTO stores_type(store_type) VALUES
   ('Cuidado del Automóvil'),
   ('Muebles de Oficina'),
   ('Suministros para Mascotas');
+
+SELECT * FROM stores ;
+INSERT INTO  stores(nit_store,store_name,address,phone_number,email,id_store_type,opening_hours,closing_hours,note) VALUES('100-NA-2000','olimpica','cra17#57c-90',3012223745,'maikol34@gmail.com',10,'07:00:00','17:00:00','productos de verduras');
+INSERT INTO products(product_name,price,stock,category,id_store,product_description) VALUES ('yuca',2000,5,'verduras','100-NA-2000','producto para el consumo cotidiano');
+SELECT * FROM products;
