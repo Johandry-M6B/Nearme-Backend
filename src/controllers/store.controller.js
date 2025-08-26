@@ -1,12 +1,10 @@
 import express from 'express';
 import { pool } from '../server/connection_db.js';
 
-
-const app= express();
-app.use(express.json());
+const router = express.Router();
 
 
-app.get('/stores',async (req,res)=>{
+router.get('/',async (req,res)=>{
     try {
         const [rows]= await pool.query(`SELECT * FROM stores `);
         res.json(rows);
@@ -20,10 +18,10 @@ app.get('/stores',async (req,res)=>{
     }
 })
 
-app.get('/stores/:nit_store',async (req,res)=>{
+router.get('/:nit',async (req,res)=>{
     try{
-        const {nit_store}= req.params
-        const [rows]= await pool.query( `SELECT *FROM stores WHERE nit_store=? `,[nit_store]);
+        const {nit}= req.params
+        const [rows]= await pool.query( `SELECT *FROM stores WHERE nit_store=? `,[nit]);
         res.json(rows[0]);
     }catch(error){
         res.status(500).json({
@@ -35,7 +33,7 @@ app.get('/stores/:nit_store',async (req,res)=>{
     }
 });
 
-app.post('/stores',async (req,res)=>{
+router.post('/',async (req,res)=>{
     try{
         const {nit_store,store_name,address,phone_number,email,id_store_type,opening_hours,closing_hours,note}=req.body; 
         const query= `INSERT INTO stores(nit_store,store_name,address,phone_number,email,id_store_type,opening_hours,closing_hours,note) VALUES (?,?,?,?,?,?,?,?,?)`;
@@ -55,12 +53,12 @@ app.post('/stores',async (req,res)=>{
     }
 });
 
-app.put('/stores/:nit_store', async (req,res)=>{
+router.put('/:nit', async (req,res)=>{
     try {
-        const {nit_store}= req.params;
+        const {nit}= req.params;
         const{nit_store: new_nit_store,store_name,address,phone_number,email,id_store_type,opening_hours,closing_hours,note}=req.body;
         const query= `UPDATE stores SET nit_store=?,store_name=?,address=?,phone_number=?,email=?,id_store_type=?,opening_hours=?,closing_hours=?,note=? WHERE nit_store=?`;
-        const values=[new_nit_store,store_name.trim(),address,phone_number,email,id_store_type,opening_hours,closing_hours,note.trim(),nit_store];
+        const values=[new_nit_store,store_name.trim(),address,phone_number,email,id_store_type,opening_hours,closing_hours,note.trim(),nit];
         const [result]= await pool.query(query,values);  
         
         if (result.affectedRows != 0) {
@@ -76,13 +74,13 @@ app.put('/stores/:nit_store', async (req,res)=>{
     }
 });
 
-app.delete('/stores/:nit_store',async (req,res)=>{
+router.delete('/:nit',async (req,res)=>{
     try {
-        const {nit_store}= req.params;
+        const {nit}= req.params;
         const query= `DELETE FROM stores WHERE nit_store=?`
         
         const values=[
-            nit_store
+            nit
         ]
         const [result]= await pool.query(query,values);
         
@@ -99,6 +97,4 @@ app.delete('/stores/:nit_store',async (req,res)=>{
     }
 })
 
-app.listen(3001,()=> {
-    console.log("Server prepared correctly on port 3001");
-})
+export default router;  
