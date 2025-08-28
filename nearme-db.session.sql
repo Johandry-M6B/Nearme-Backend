@@ -1,6 +1,3 @@
-create database if not exists NearMe;
-use NearMe;
-
 
 
 CREATE TABLE stores_type(

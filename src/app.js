@@ -3,6 +3,7 @@ import cors from "cors";
 import { pool } from "./server/connection_db.js";
 import productRoutes from "./controllers/product.controller.js";
 import storeRoutes from "./controllers/store.controller.js";
+import storeViewsRoutes from "./controllers/storeViews.controller.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -24,6 +25,7 @@ app.get("/health", (req, res) => {
 // Routes
 app.use("/api/products", productRoutes);
 app.use("/api/stores", storeRoutes);
+app.use("/api/store-views", storeViewsRoutes);
 
 // 404 handler
 app.use((req, res) => {
@@ -51,6 +53,7 @@ app.listen(PORT, () => {
   console.log(`📊 Health check: http://localhost:${PORT}/health`);
   console.log(`🛍️ Products API: http://localhost:${PORT}/api/products`);
   console.log(`🏪 Stores API: http://localhost:${PORT}/api/stores`);
+  console.log(`📈 Store Views API: http://localhost:${PORT}/api/store-views`);
 });
 
 export default app;

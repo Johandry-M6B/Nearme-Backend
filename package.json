@@ -4,9 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "node src/app.js",
+    "start": "node src/app.js",
+    "build": "echo 'No build step required for Node.js backend'",
+    "clean-db": "node src/server/cleanDatabase.js",
+    "drop-db": "node src/server/dropDatabase.js",
+    "init-db": "node src/server/initData.js",
+    "update-views-table": "node src/server/updateStoreViewsTable.js",
+    "test": "./tests/api-tests.sh",
+    "test-quick": "./tests/quick-post-tests.sh"
   },
   "devDependencies": {
     "vite": "^7.1.2"
@@ -14,7 +20,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "csv-parser": "^3.2.0",
-    "express": "^5.1.0",
+    "express": "^4.18.2",
     "mysql2": "^3.14.3"
   }
 }
