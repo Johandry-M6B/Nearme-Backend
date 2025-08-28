@@ -32,6 +32,33 @@ router.get('/:nit',async (req,res)=>{
         });
     }
 });
+// Get total views of a store by its ID and increment the view count
+router.get('/:id', async (req, res)=>{
+    
+    try {
+        const {id} = req.params;
+
+        await pool.query(`INSERT INTO store_viws(id_store) VALUES (?)`,[id]);
+
+        const [result] = await pool.query(`SELECT COUNT(*) AS total_views FROM store_views WHERE id_store;`, [id]);
+        const total_views = result[0].total_views;
+
+        res.json({
+            storeId:id,
+            total_views
+        })
+    } catch (error) {
+        res.status(500).json({
+            status: 'error',
+            endpoint: req.originalUrl,
+            method: req.method,
+            message: error.message
+        });
+        
+        
+    }
+
+})
 
 router.post('/',async (req,res)=>{
     try{
@@ -73,6 +100,8 @@ router.put('/:nit', async (req,res)=>{
         })
     }
 });
+
+
 
 router.delete('/:nit',async (req,res)=>{
     try {

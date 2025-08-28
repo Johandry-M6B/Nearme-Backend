@@ -26,21 +26,30 @@ CREATE TABLE stores(
     ON DELETE SET NULL
     ON UPDATE CASCADE
 );
-
+-- update en fild sold_out AND DELETE fild stock
 CREATE TABLE products(
 	id_product INT AUTO_INCREMENT PRIMARY KEY,
     product_name VARCHAR(250) UNIQUE,
     price DECIMAL(12,2),
-    stock INT,
     category VARCHAR(100),
     id_store VARCHAR(20),
-    product_description TEXT,
+    sold_out BOOLEAN not null default 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (id_store) REFERENCES stores(nit_store) 
     ON DELETE SET NULL
     ON UPDATE CASCADE
 );
+select * from products;
+-- create table store_views
+create table store_views(
+id_view int auto_increment primary key,
+id_store varchar(20) not null,
+viwe_date datetime default current_timestamp, 
+foreign key (id_store) references stores(nit_store)
+
+);
+SELECT COUNT(*) AS total_views FROM store_views WHERE id_store;
 
 INSERT INTO stores_type(store_type) VALUES
   ('Ropa'),
